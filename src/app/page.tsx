@@ -1,14 +1,16 @@
 import Header from "@/components/header";
-import React from "react";
+import { getsession } from "@/lib/auth";
+import LandingPage from "@/components/landingPageUi/landingPage";
+import SignedInPage from "@/components/landingPageUi/isSignedIn";
 
-function HomePage() {
+async function HomePage() {
+  const session = await getsession();
   return (
     <div>
       <Header />
-
-      <main>
-        <h1>What are e building today?</h1>
-      </main>
+      <>
+        {!!session.user?.id ? <SignedInPage user={session} /> : <LandingPage />}
+      </>
     </div>
   );
 }

@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import Link from "next/link";
-import { signIn, useAuth } from "@/lib/auth-client";
+import { signIn } from "@/lib/auth-client";
 import { toast } from "sonner";
 import { redirect } from "next/navigation";
 
@@ -59,28 +59,6 @@ function Signinform() {
             onError: (ctx) => {
               console.log("[ERROR SIGNIN]: ", ctx.error);
               toast.error(ctx.error.message);
-            },
-          },
-        );
-      } else {
-        await signIn.username(
-          {
-            username: formData.userId as string,
-            password: formData.password,
-            rememberMe: formData.rememberMe,
-          },
-          {
-            onSuccess: (ctx) => {
-              if (ctx.data.user.name !== undefined)
-                toast.success(`Welcome back, ${ctx.data.user.name}`);
-              else toast.success(`Welcome back!`);
-
-              redirect("/");
-            },
-
-            onError: (ctx) => {
-              console.log("[ERROR SIGNIN]: ", ctx.error);
-              toast.error(ctx.error.message || "Authentication Failed");
             },
           },
         );

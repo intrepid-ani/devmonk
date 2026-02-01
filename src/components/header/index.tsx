@@ -11,9 +11,8 @@ async function Header() {
         <Logo />
 
         <NavActions
-          isAuthenticated={session?.id ? true : false}
-          image={session?.image as string}
-          displayName={session?.name.split(" ")[0]}
+          isAuthenticated={session.isAuthenticated}
+          image={session.user?.avatar as string}
         />
       </header>
       <Separator />

@@ -4,7 +4,7 @@ import Link from "next/link";
 import { redirect, usePathname } from "next/navigation";
 import { useIsMobile } from "@/hooks/use-mobile";
 
-import { Avatar } from "@/components/ui/avatar";
+import { Avatar } from "../ui/avatar";
 import { Button } from "../ui/button";
 import ThemeButton from "../ui/theme-button";
 
@@ -23,7 +23,6 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { signOut } from "@/lib/auth-client";
 import { toast } from "sonner";
-import { AvatarImage } from "@radix-ui/react-avatar";
 
 export default function NavActions({
   isAuthenticated,
@@ -31,7 +30,6 @@ export default function NavActions({
 }: {
   isAuthenticated: boolean;
   image?: string;
-  displayName?: string;
 }) {
   const isMobile = useIsMobile();
   const path = usePathname();
@@ -76,7 +74,13 @@ export default function NavActions({
           <DropdownMenu>
             <DropdownMenuTrigger className="p-0 mt-2">
               <Avatar className="border border-accent-foreground">
-                <AvatarImage src={image} />
+                <Image
+                  src={image}
+                  alt="Profile"
+                  className="h-full w-full"
+                  width={"20"}
+                  height={20}
+                />
               </Avatar>
             </DropdownMenuTrigger>
             <DropdownMenuContent>

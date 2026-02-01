@@ -10,7 +10,7 @@ async function layout({
 }>) {
   const session = await getsession();
 
-  if (session) redirect("/");
+  if (session.isAuthenticated) redirect("/");
 
   return (
     <>

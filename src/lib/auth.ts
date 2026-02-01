@@ -47,9 +47,40 @@ export const auth = betterAuth({
   },
 });
 
-export const getsession = cache(async () => {
-  const session = await auth.api.getSession({
+export interface UserSessionObj {
+  isAuthenticated: boolean;
+  user?: {
+    id: string;
+    avatar: string | null | undefined;
+    firstName: string;
+    name: string;
+    email: string;
+    metadata: {
+      verified: boolean;
+      createdAt: Date;
+    };
+  } | null;
+}
+
+export const getsession = cache(async (): Promise<UserSessionObj> => {
+  const user = await auth.api.getSession({
     headers: await headers(),
   });
-  return session?.user;
+  const name = `${user?.user.name.split("")[0].toUpperCase()}${user?.user.name.toLowerCase().split("").slice(1).join("")}`;
+  return {
+    isAuthenticated: user?.user.id ? true : false,
+    user: user?.user
+      ? {
+          id: user.user.id,
+          avatar: user.user.image,
+          firstName: name.split(" ")[0],
+          name: name,
+          email: user.user.email,
+          metadata: {
+            verified: user.user.emailVerified,
+            createdAt: user.user.createdAt,
+          },
+        }
+      : null,
+  };
 });
